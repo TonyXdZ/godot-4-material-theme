@@ -3,7 +3,7 @@ extends Control
 ##
 ## Nothing here is a specimen. Buttons take the mouse, fields take the keyboard,
 ## the switch flips the scheme underneath everything, and the dialogs open over
-## the page — so the states the gallery can only draw can be tried by hand.
+## the page — so every state can be tried by hand rather than read off a picture.
 
 const LIGHT_PATH := "res://theme/material_light.tres"
 const DARK_PATH := "res://theme/material_dark.tres"
@@ -327,7 +327,7 @@ func _section_dialogs() -> PanelContainer:
 	destructive.theme_type_variation = "OutlinedButton"
 	destructive.text = "Delete…"
 	destructive.pressed.connect(func() -> void:
-		_dialog.setup("Delete project?", "This removes the gallery scene and both theme resources. It cannot be undone.", "Delete", "Cancel", true)
+		_dialog.setup("Delete project?", "This removes the demo scene and both theme resources. It cannot be undone.", "Delete", "Cancel", true)
 		_dialog.open()
 		say("Destructive dialog opened"))
 	row.add_child(destructive)

@@ -7,11 +7,11 @@ component styling that makes a Godot app look like a current app instead of an
 engine demo — buttons, text fields, cards, dialogs and lists, in light and dark,
 with hover, focus, pressed and disabled states.
 
-Two scenes ship with the kit. **Test bench** is the main scene: every control is
-live there — click the buttons, type in the fields, toggle the switch, open the
-dialogs, and the Light / Dark switch re-themes the whole page. **Gallery** is the
-reference surface: one plate per control family, each family's key measurements
-called out, the light block above the dark block.
+The project opens on a test bench: every control is live there — click the
+buttons, type in the fields, toggle the switch, open the dialogs, and the
+Light / Dark switch re-themes the whole page. The component plates further down
+are the same theme rendered for the record, measurements called out, light block
+above dark block.
 
 ## Screenshots
 
@@ -27,12 +27,12 @@ page, with the last interaction reported at the bottom.
 
 ![The test bench, dark scheme](docs/screenshots/playground-dark.png)
 
-### Gallery
+### Component plates
 
-The reference surface. Every plate shows the light block above the dark block, so
-one image carries both schemes.
+One plate per family: the specimen with its measurements, the state strip, and
+the same controls again under the dark scheme.
 
-![The gallery in the light scheme: header, button plate and text-field plate](docs/screenshots/overview-light.png)
+![The plates in the light scheme: header, button plate and text-field plate](docs/screenshots/overview-light.png)
 
 ![The same page with the dark scheme applied to the shell](docs/screenshots/overview-dark.png)
 
@@ -81,9 +81,9 @@ one row carrying the disabled label.
 
 ### Phone
 
-The same scene at 390dp: one column, the header wrapping under the title.
+The kit at 390dp: one column, the header wrapping under the title.
 
-![The gallery at phone width](docs/screenshots/phone-light.png)
+![The kit at phone width](docs/screenshots/phone-light.png)
 
 ## Use it
 
@@ -111,7 +111,7 @@ hard-coded values.
 | `CheckBox`, `CheckButton` | Material 18dp check and the 52×32 switch, drawn per scheme |
 | `OptionButton` (`M3Select`) | Outlined select with the dropdown arrow |
 | `ItemList` | 12dp panel and row radius, 16dp row padding, hovered and cursor states |
-| `PanelContainer` (`M3Card`, `M3CardOutlined`, `M3Dialog`, `M3Plate`) | Card, outlined card, dialog panel, gallery plate |
+| `PanelContainer` (`M3Card`, `M3CardOutlined`, `M3Dialog`, `M3Plate`) | Card, outlined card, dialog panel, section plate |
 | `Label` (`M3LabelPage`, `M3LabelHeadline`, `M3LabelTitle`, `M3LabelBody`, `M3LabelMuted`, `M3LabelCaption`, `M3LabelError`) | The type scale as variations, so text follows the scheme instead of a frozen colour |
 | `PopupMenu`, `PopupPanel` | Menus with the same surface language |
 | `VScrollBar`, `HScrollBar` | Thin grabbers in the palette |
@@ -134,39 +134,24 @@ The `.tres` files are generated from one token table, so the palette, the type
 scale and the shapes are edited in one place:
 
 ```sh
-python3 tools/make_icons.py                 # scheme-coloured checkbox/switch/arrow SVGs
-godot --headless --import                   # import the icons and fonts
+godot --headless --import
 godot --headless --script res://theme/build_theme.gd
 ```
+
+The checkbox, switch and dropdown marks already ship as SVGs in `theme/icons/`;
+if you recolour a scheme, edit those files before rebuilding.
 
 `theme/build_theme.gd` holds the Material 3 baseline roles for light and dark,
 the state-layer percentages, and the radii. Change a role there, rebuild, and
 every control follows.
 
-## The two scenes
+## The demo scene
 
 Run the project and you land on `playground/playground.tscn`. It exists to be
 poked: every control there is a real control, wired to a status bar that reports
 what you just did, so hover, focus, pressed, disabled and the error field can be
-tried by hand instead of read off a screenshot.
-
-`gallery/gallery.tscn` is the reference surface — the same components as
-specimens with their measurements, both schemes on one plate, the page the
-screenshots above come from. Open it directly (F6 in the editor) when you want to
-check a value rather than use a control.
-
-Both reflow from one column at phone width to two at desktop width.
-
-Screenshots are produced headlessly, straight out of the scene:
-
-```sh
-xvfb-run -a godot -s res://tools/capture.gd              # review captures: 1440 and 390, both schemes
-xvfb-run -a godot -s res://tools/capture_components.gd   # docs/screenshots/: one image per family
-```
-
-The review captures land in `.impeccable/review/`; the README images land in
-`docs/screenshots/`, cropped from the rendered page so the screenshot and the
-specimen cannot disagree.
+tried by hand. It reflows from one column at phone width to two at desktop width,
+and the header's Light / Dark switch re-themes the page underneath it.
 
 ## Scope
 
@@ -179,7 +164,8 @@ kit does not pretend to ship a radio dot.
 
 ## Licence
 
+The theme and the two scripts are MIT — see [`LICENSE`](LICENSE).
+
 Roboto is bundled under the Apache License 2.0 — see `theme/fonts/LICENSE-Roboto.txt`.
 The project icon (`icon.svg`) is this repo's own drawing of Godot's robot inside a
 Material squircle; Godot's logo is CC BY 4.0, Material Design is Apache 2.0.
-The theme code in this repository is yours to use under the same licence.
