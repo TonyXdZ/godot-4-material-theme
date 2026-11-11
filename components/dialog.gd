@@ -5,6 +5,9 @@ extends Control
 ## scene rather than a Godot Window so it renders the same way inside an
 ## embedded plate as it does over a real screen.
 
+signal confirmed
+signal cancelled
+
 var headline := "Replace this file?"
 var body := "The old version stays in your history for 30 days."
 var confirm_label := "Replace"
@@ -58,13 +61,13 @@ func _build() -> void:
 	_panel.add_child(column)
 
 	_headline_label = Label.new()
-	_headline_label.add_theme_font_size_override("font_size", 24)
+	_headline_label.theme_type_variation = "M3LabelHeadline"
 	_headline_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(_headline_label)
 
 	_body_label = Label.new()
+	_body_label.theme_type_variation = "M3LabelMuted"
 	_body_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_body_label.add_theme_font_size_override("font_size", 14)
 	column.add_child(_body_label)
 
 	var actions := HBoxContainer.new()
@@ -74,12 +77,26 @@ func _build() -> void:
 
 	_cancel = Button.new()
 	_cancel.theme_type_variation = "TextButton"
-	_cancel.focus_mode = Control.FOCUS_NONE
 	actions.add_child(_cancel)
+	_cancel.pressed.connect(func() -> void:
+		cancelled.emit()
+		close())
 
 	_confirm = Button.new()
-	_confirm.focus_mode = Control.FOCUS_NONE
 	actions.add_child(_confirm)
+	_confirm.pressed.connect(func() -> void:
+		confirmed.emit()
+		close())
+
+
+func open() -> void:
+	visible = true
+	modulate.a = 1.0
+	_confirm.grab_focus()
+
+
+func close() -> void:
+	visible = false
 
 
 func get_panel() -> PanelContainer:
@@ -90,12 +107,8 @@ func _apply() -> void:
 	if _headline_label == null:
 		return
 	var source := theme if theme else Theme.new()
-	var ink := source.get_color("on_surface", "M3Roles")
-	var hint := source.get_color("on_surface_variant", "M3Roles")
 	_headline_label.text = headline
-	_headline_label.add_theme_color_override("font_color", ink)
 	_body_label.text = body
-	_body_label.add_theme_color_override("font_color", hint)
 	_cancel.text = cancel_label
 	_confirm.text = confirm_label
 	if destructive:

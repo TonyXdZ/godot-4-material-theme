@@ -7,6 +7,8 @@ extends PanelContainer
 
 enum Variant { FILLED, OUTLINED }
 
+signal action_pressed
+
 var headline := ""
 var supporting := ""
 var action := ""
@@ -38,14 +40,12 @@ func _build() -> void:
 	add_child(_column)
 
 	_headline_label = Label.new()
-	_headline_label.add_theme_font_override("font", _medium())
-	_headline_label.add_theme_font_size_override("font_size", 16)
+	_headline_label.theme_type_variation = "M3LabelTitle"
 	_column.add_child(_headline_label)
 
 	_supporting_label = Label.new()
 	_supporting_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_supporting_label.add_theme_font_size_override("font_size", 14)
-	_supporting_label.add_theme_color_override("font_color", _role("on_surface_variant"))
+	_supporting_label.theme_type_variation = "M3LabelMuted"
 	_column.add_child(_supporting_label)
 
 	var actions := HBoxContainer.new()
@@ -55,8 +55,8 @@ func _build() -> void:
 
 	_action_button = Button.new()
 	_action_button.theme_type_variation = "TextButton"
-	_action_button.focus_mode = Control.FOCUS_NONE
 	actions.add_child(_action_button)
+	_action_button.pressed.connect(func() -> void: action_pressed.emit())
 	_apply()
 
 
@@ -64,14 +64,10 @@ func _apply() -> void:
 	if _headline_label == null:
 		return
 	_headline_label.text = headline
-	_headline_label.add_theme_color_override("font_color", _role("on_surface"))
 	_supporting_label.text = supporting
 	_supporting_label.visible = supporting != ""
 	_action_button.text = action
 	_action_button.visible = action != ""
-	_action_button.add_theme_color_override("font_color", _role("primary"))
-	_action_button.add_theme_color_override("font_hover_color", _role("primary"))
-	_action_button.add_theme_color_override("font_pressed_color", _role("primary"))
 
 
 func _medium() -> Font:
