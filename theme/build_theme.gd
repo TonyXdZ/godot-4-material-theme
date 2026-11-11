@@ -249,6 +249,24 @@ func _theme_label(theme: Theme) -> void:
 	theme.set_font_size("font_size", "Label", 14)
 	theme.set_color("font_color", "Label", _c("on_surface"))
 
+	# The type scale as label variations. Components use these instead of
+	# colour overrides, so a scheme swap repaints their text with everything
+	# else instead of freezing the light-scheme ink into the node.
+	for entry in [
+		["M3LabelPage", 22, font_medium, "on_surface"],
+		["M3LabelHeadline", 24, font_regular, "on_surface"],
+		["M3LabelTitle", 16, font_medium, "on_surface"],
+		["M3LabelBody", 14, font_regular, "on_surface"],
+		["M3LabelMuted", 12, font_regular, "on_surface_variant"],
+		["M3LabelCaption", 11, font_regular, "on_surface_variant"],
+		["M3LabelError", 12, font_regular, "error"],
+	]:
+		var variation: String = entry[0]
+		theme.set_type_variation(variation, "Label")
+		theme.set_font("font", variation, entry[2])
+		theme.set_font_size("font_size", variation, entry[1])
+		theme.set_color("font_color", variation, _c(entry[3]))
+
 
 func _theme_buttons(theme: Theme) -> void:
 	var filled := _c("primary")
@@ -397,8 +415,10 @@ func _theme_selection_controls(theme: Theme) -> void:
 		var pressed := _padded(_flat(_wash(primary, PRESSED), 20), 10, 8)
 		theme.set_stylebox("normal", type_name, idle)
 		theme.set_stylebox("hover", type_name, hover)
-		theme.set_stylebox("hover_pressed", type_name, pressed)
-		theme.set_stylebox("pressed", type_name, pressed)
+		# A checked box and an on switch stay "pressed" for good, so that state
+		# must not paint a container: the mark carries the state, not a pill.
+		theme.set_stylebox("hover_pressed", type_name, hover)
+		theme.set_stylebox("pressed", type_name, idle)
 		theme.set_stylebox("disabled", type_name, idle)
 		theme.set_stylebox("focus", type_name, _focus_ring(_wash(primary, FOCUS), primary, 20))
 		theme.set_font("font", type_name, font_regular)
