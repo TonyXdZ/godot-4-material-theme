@@ -1,3 +1,5 @@
+![Material Theme for Godot: the kit's icon, name and three of its controls](docs/screenshots/banner.png)
+
 # Material Theme for Godot
 
 A Material 3 theme for Godot 4.7. Two Theme resources, a bundled Roboto, and the
@@ -178,4 +180,6 @@ kit does not pretend to ship a radio dot.
 ## Licence
 
 Roboto is bundled under the Apache License 2.0 — see `theme/fonts/LICENSE-Roboto.txt`.
+The project icon (`icon.svg`) is this repo's own drawing of Godot's robot inside a
+Material squircle; Godot's logo is CC BY 4.0, Material Design is Apache 2.0.
 The theme code in this repository is yours to use under the same licence.
