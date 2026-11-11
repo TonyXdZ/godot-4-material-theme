@@ -5,14 +5,30 @@ component styling that makes a Godot app look like a current app instead of an
 engine demo — buttons, text fields, cards, dialogs and lists, in light and dark,
 with hover, focus, pressed and disabled states.
 
-The gallery scene is the argument: one plate per control family, each family's key
-measurements called out (button height, radius and padding; field height; card and
-dialog radius and padding), the light block above the dark block.
+Two scenes ship with the kit. **Test bench** is the main scene: every control is
+live there — click the buttons, type in the fields, toggle the switch, open the
+dialogs, and the Light / Dark switch re-themes the whole page. **Gallery** is the
+reference surface: one plate per control family, each family's key measurements
+called out, the light block above the dark block.
 
 ## Screenshots
 
-Captured from the running project at 1440dp, into `docs/screenshots/`. Every plate
-shows the light block above the dark block, so one image carries both schemes.
+Captured from the running project at 1440dp, into `docs/screenshots/`.
+
+### Test bench
+
+The page you get when you run the project: live buttons, fields, selection
+controls, a card with a working action, a selectable list and dialogs over the
+page, with the last interaction reported at the bottom.
+
+![The test bench, light scheme](docs/screenshots/playground.png)
+
+![The test bench, dark scheme](docs/screenshots/playground-dark.png)
+
+### Gallery
+
+The reference surface. Every plate shows the light block above the dark block, so
+one image carries both schemes.
 
 ![The gallery in the light scheme: header, button plate and text-field plate](docs/screenshots/overview-light.png)
 
@@ -94,6 +110,7 @@ hard-coded values.
 | `OptionButton` (`M3Select`) | Outlined select with the dropdown arrow |
 | `ItemList` | 12dp panel and row radius, 16dp row padding, hovered and cursor states |
 | `PanelContainer` (`M3Card`, `M3CardOutlined`, `M3Dialog`, `M3Plate`) | Card, outlined card, dialog panel, gallery plate |
+| `Label` (`M3LabelPage`, `M3LabelHeadline`, `M3LabelTitle`, `M3LabelBody`, `M3LabelMuted`, `M3LabelCaption`, `M3LabelError`) | The type scale as variations, so text follows the scheme instead of a frozen colour |
 | `PopupMenu`, `PopupPanel` | Menus with the same surface language |
 | `VScrollBar`, `HScrollBar` | Thin grabbers in the palette |
 
@@ -124,11 +141,19 @@ godot --headless --script res://theme/build_theme.gd
 the state-layer percentages, and the radii. Change a role there, rebuild, and
 every control follows.
 
-## The gallery
+## The two scenes
 
-Open the project and run it: `gallery/gallery.tscn` is the main scene. It reflows
-from one column at phone width to two at desktop width, and the Light / Dark
-switch re-themes the shell.
+Run the project and you land on `playground/playground.tscn`. It exists to be
+poked: every control there is a real control, wired to a status bar that reports
+what you just did, so hover, focus, pressed, disabled and the error field can be
+tried by hand instead of read off a screenshot.
+
+`gallery/gallery.tscn` is the reference surface — the same components as
+specimens with their measurements, both schemes on one plate, the page the
+screenshots above come from. Open it directly (F6 in the editor) when you want to
+check a value rather than use a control.
+
+Both reflow from one column at phone width to two at desktop width.
 
 Screenshots are produced headlessly, straight out of the scene:
 
